@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "bmono",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appliedblockchain/bmono.git"
+  },
+  "author": "Mirek Rusin",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/appliedblockchain/bmono/issues"
+  },
+  "homepage": "https://github.com/appliedblockchain/bmono#readme"
+}
