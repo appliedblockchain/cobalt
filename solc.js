@@ -1,6 +1,8 @@
 
+const path = require('path')
 const sh = require('./sh-sync')
 
+const DEFAULT_ROOT = './contracts'
 const DEFAULT_SOLC = '/usr/local/bin/solc'
 
 /**
@@ -8,17 +10,17 @@ const DEFAULT_SOLC = '/usr/local/bin/solc'
  *
  * Usage:
  *
- *    const solc = makeCompiler(`${__dirname}/../contracts`)
+ *    const solc = require('bmono/solc')({ root: `${__dirname}/../contracts` })
  *    const { abi, bin } = solc('Foo.sol')
  *
- * @param {string} root Contracts' root directory.
- * @param {string} 1.solc = '/usr/local/bin/solc' Solidity compiler executable path.
+ * @param {string} .root = DEFAULT_ROOT ('./contracts') Contracts' root directory.
+ * @param {string} .solc = DEFAULT_SOLC ('/usr/local/bin/solc') Solidity compiler executable path.
  * @return {function} Compiler function.
  */
-function makeSolc(root, { solc = DEFAULT_SOLC } = {}) {
+function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC } = {}) {
 
   function compile(name) {
-    const { stdout, stderr } = sh(`${solc} --combined-json abi,bin ${root}/${name}`)
+    const { stdout, stderr } = sh(`${solc} --combined-json abi,bin ${path.join(root, name)}`)
     if (stderr) {
       throw new Error('stderr', { stdout, stderr })
     }
@@ -33,4 +35,4 @@ function makeSolc(root, { solc = DEFAULT_SOLC } = {}) {
   return compile
 }
 
-module.exports = makeSolc
+module.exports = make
