@@ -7,16 +7,28 @@ const crypto = require('crypto')
 
 const DEFAULT_PASSWORD = 'foo'
 
-function makeKeystoreAccount(privateKey, { password = DEFAULT_PASSWORD } = {}) {
+function makeKeystoreAccount(privateKey, { password = DEFAULT_PASSWORD, c = null } = {}) {
   const salt = crypto.randomBytes(32)
   const iv = crypto.randomBytes(16)
-  const account = keythereum.dump(password, privateKey, salt, iv)
+
+  // Allow custom number of iterations, ie. 1 for testing.
+  const options = c ? {
+    kdf: 'pbkdf2',
+    cipher: 'aes-128-ctr',
+    kdfparams: {
+      c,
+      dklen: 32,
+      prf: 'hmac-sha256'
+    }
+  } : null
+
+  const account = keythereum.dump(password, privateKey, salt, iv, options)
   account.address = toChecksumAddress('0x' + account.address).slice(2)
   return account
 }
 
-function seedKeystoreAccounts(n, { seed, dir } = {}) {
-  const accounts = seedPrivateKeys(n, seed).map(makeKeystoreAccount)
+function seedKeystoreAccounts(n, { seed, dir, c } = {}) {
+  const accounts = seedPrivateKeys(n, seed).map(_1 => makeKeystoreAccount(_1, { c }))
 
   // Save to files if `dir` was provided.
   if (isDir(dir)) {
