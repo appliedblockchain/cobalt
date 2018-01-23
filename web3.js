@@ -2,29 +2,33 @@
 const net = require('net')
 const assert = require('assert')
 const Web3 = require('web3')
-const genache = require('ganache-core')
-const seedGenacheAccounts = require('./seed-genache-accounts')
+const ganache = require('ganache-core')
+const seedGanacheAccounts = require('./seed-ganache-accounts')
 const { get, isFunction } = require('lodash')
 const makeWeb3Require = require('./web3-require')
 const web3Deploy = require('./web3-deploy')
 
-const DEFAULT_PROVIDER = 'genache'
+const DEFAULT_PROVIDER = 'ganache'
 const DEFAULT_ACCOUNTS = 1000
 const DEFAULT_GAS_LIMIT = 50000000
 const DEFAULT_CHAIN_ID = 0x11
-const DEFAULT_IPC = './parity/jsonrpc.ipc'
+const DEFAULT_IPC = `${process.env.HOME}/.local/share/io.parity.ethereum/jsonrpc.ipc`
 
 const providers = {
 
   // TODO: Not complete/tested.
   parity({ ipc = DEFAULT_IPC, accounts: n = DEFAULT_ACCOUNTS } = {}) {
-    const accounts = seedGenacheAccounts(n) // TODO: FIXME:
-    const provider = new Web3.providers.IpcProvider(ipc, net)
+    console.log({ ipc })
+    const accounts = seedGanacheAccounts(n) // TODO: FIXME:
+    // const provider = new Web3.providers.IpcProvider(ipc, net)
+    // const provider = new Web3.providers.WebsocketProvider('ws://localhost:8546')
+    const provider = new Web3.providers.HttpProvider('http://localhost:8545')
     return { provider, accounts, close: null }
   },
-  genache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = null } = {}) {
-    const accounts = seedGenacheAccounts(n)
-    const provider = genache.provider({
+
+  ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = null } = {}) {
+    const accounts = seedGanacheAccounts(n)
+    const provider = ganache.provider({
       logger,
       unlocked_accounts: accounts.map(_1 => _1.address),
       accounts,

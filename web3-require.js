@@ -1,5 +1,6 @@
 
 const assert = require('assert')
+const isDir = require('./is-dir-sync')
 const { each, set } = require('lodash')
 
 /**
@@ -21,6 +22,11 @@ function make({ root, solc }) {
   if (root) {
     assert(!solc, 'Expected solc to be nil.')
     solc = require('./solc')({ root })
+  }
+
+  // Try to see if we can see `./contracts`.
+  if (!solc && isDir('./contracts')) {
+    solc = require('./solc')({ root: './contracts' })
   }
 
   // At this point, we need to have `solc` defined.
