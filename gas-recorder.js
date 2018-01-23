@@ -2,7 +2,7 @@
 const { each } = require('lodash')
 const puts = require('./puts')
 
-const DEFAULT_GAS_TO_ETH = 50.0
+const DEFAULT_GAS_TO_ETH = 0.00000002
 const DEFAULT_ETH_TO_USD = 1000.0
 
 /**
@@ -12,7 +12,7 @@ const DEFAULT_ETH_TO_USD = 1000.0
  *   await contract.methods.foo().send({ from, gas }).then(recordGas('foo'))
  *   dumpRecordedGas()
  *
- * @param {number} .gasToEth = DEFAULT_GAS_TO_ETH (50.0)
+ * @param {number} .gasToEth = DEFAULT_GAS_TO_ETH (0.00000002)
  * @param {number} .ethToUsd = DEFAULT_ETH_TO_USD (1000.0)
  * @return {{ recordGas: function, dumpRecordedGas: function }}
  */
@@ -28,7 +28,7 @@ function makeGasRecorder({ gasToEth = DEFAULT_GAS_TO_ETH, ethToUsd = DEFAULT_ETH
 
   const dumpRecordedGas = () => {
     each(cumulativeGasUsed, (gas, name) => {
-      puts('%20s - $ %.2f', name, gasToUsd(gas))
+      puts('%20s - $ %.2f (%d gas)', name, gasToUsd(gas), gas)
     })
     puts('%20s - $ %d', 'eth price', ethToUsd)
   }
