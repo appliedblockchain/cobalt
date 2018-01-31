@@ -1,10 +1,10 @@
 
-const net = require('net')
+// const net = require('net')
 const assert = require('assert')
 const Web3 = require('web3')
 const ganache = require('ganache-core')
 const seedGanacheAccounts = require('./seed-ganache-accounts')
-const { get, isFunction } = require('lodash')
+const { has, get, isFunction, isInteger } = require('lodash')
 const makeWeb3Require = require('./web3-require')
 const web3Deploy = require('./web3-deploy')
 
@@ -47,6 +47,18 @@ const providers = {
  * @return {{ web3: Web3, accounts: array, provider }}
  */
 function makeWeb3(options = {}) {
+
+  // Make sure we don't get ganache like keys.
+  if (has(options, 'networkId') || has(options, 'network_id')) {
+    throw new TypeError('Please use chainId instead of networkId or network_id.')
+  }
+
+  // Make sure chain id is sane and in safe range.
+  if (has(options, 'chainId')) {
+    if (!isInteger(options.chainId) || (options.chainId < 0 || options.chainId > 109)) {
+      throw new TypeError(`Expected chainId to be integer in 0 to 109 range, got ${options.chainId}.`)
+    }
+  }
 
   const name = get(options, 'provider', DEFAULT_PROVIDER)
   const { provider, accounts, close } = providers[name](options)
