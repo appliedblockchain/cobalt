@@ -1,6 +1,5 @@
 
-const assert = require('assert')
-const { get } = require('lodash')
+const { get, has } = require('lodash')
 
 const nullAddress = '0x0000000000000000000000000000000000000000'
 
@@ -16,13 +15,24 @@ const nullAddress = '0x0000000000000000000000000000000000000000'
  * @param {{ from, gas }} Transaction options.
  */
 async function web3Deploy(name, args = [], { from, gas } = {}) {
+
+  // Check if contract has been registered.
+  if (!has(this, ['ctr', name])) {
+    throw new Error(`${name} contract not found, did you forget web3.require('${name}.sol')?`)
+  }
+
   const result = await this.ctr[name]
     .deploy({ arguments: args })
     .send({
       from,
       gas
     })
-  assert(get(result, 'options.address') !== nullAddress, 'Expected deployed contract to have an address.')
+
+  // Check if contract has been deployed.
+  if (get(result, 'options.address', nullAddress) === nullAddress) {
+    throw new Error(`${name} contract couldn't be deployed, maybe abstract interface does't match?`)
+  }
+
   result.setProvider(this.currentProvider)
   return result
 }
