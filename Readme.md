@@ -5,7 +5,7 @@
 
 ## Installation
 
-    npm i -S git+ssh://git@github.com/appliedblockchain/bmono.git
+    npm i -S @appliedblockchain/bmono
 
 ## Usage
 
