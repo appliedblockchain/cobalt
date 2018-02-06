@@ -7,6 +7,7 @@ const seedGanacheAccounts = require('./seed-ganache-accounts')
 const { has, get, isFunction, isInteger } = require('lodash')
 const makeWeb3Require = require('./web3-require')
 const web3Deploy = require('./web3-deploy')
+const web3At = require('./web3-at')
 
 const DEFAULT_PROVIDER = 'ganache'
 const DEFAULT_ACCOUNTS = 1000
@@ -73,6 +74,10 @@ function makeWeb3(options = {}) {
   // Decorate with `deploy`.
   assert(!web3.deploy, 'Can\'t overwrite web3.deploy.')
   web3.deploy = web3Deploy
+
+  // Decorate with `at`.
+  assert(!web3.at, 'Can\'t overwrite web3.at.')
+  web3.at = web3At
 
   // Decorate with `close` to close provider - if it's one of those that are hanging.
   assert(!web3.close, 'Can\'t overwrite close.')
