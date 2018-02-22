@@ -3,7 +3,7 @@ const path = require('path')
 const sh = require('./sh-sync')
 
 const DEFAULT_ROOT = './contracts'
-const DEFAULT_SOLC = '/usr/local/bin/solc'
+const DEFAULT_SOLC = 'solc'
 
 /**
  * Make solidity compiler for `root` base path with contracts.
@@ -14,7 +14,7 @@ const DEFAULT_SOLC = '/usr/local/bin/solc'
  *    const { abi, bin } = solc('Foo.sol')
  *
  * @param {string} .root = DEFAULT_ROOT ('./contracts') Contracts' root directory.
- * @param {string} .solc = DEFAULT_SOLC ('/usr/local/bin/solc') Solidity compiler executable path.
+ * @param {string} .solc = DEFAULT_SOLC ('solc') Solidity compiler should be on your PATH.
  * @return {function} Compiler function.
  */
 function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC } = {}) {
