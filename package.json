@@ -19,11 +19,12 @@
   "homepage": "https://github.com/appliedblockchain/bmono#readme",
   "devDependencies": {
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^4.17.0",
-    "mocha": "^5.0.0"
+    "mocha": "^5.0.1"
   },
   "dependencies": {
-    "ganache-core": "^2.1.0-beta.1",
+    "ganache-core": "^2.1.0-beta.7",
     "keccak": "^1.4.0",
     "keythereum": "^1.0.2",
     "lodash": "^4.17.5",

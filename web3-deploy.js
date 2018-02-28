@@ -1,6 +1,7 @@
 
 const { get, has } = require('lodash')
-const linkLibraries = require('./link-libraries')
+const bytecodePlaceholders = require('./bytecode-placeholders')
+const bytecodeLink = require('./bytecode-link')
 
 const nullAddress = '0x0000000000000000000000000000000000000000'
 
@@ -23,17 +24,18 @@ async function web3Deploy(name, args = [], { from, gas, links = {} } = {}) {
     throw new Error(`${name} contract not found, did you forget web3.require('${name}.sol')?`)
   }
 
-  const deploymentOptions = { arguments: args }
+  const deployOptions = { arguments: args }
 
-  if (Object.keys(links).length > 0) { // we need to link the contract with deployed dependencies (libraries)
-    const unlinkedBytecode = this.ctr[name].options.data
-    const linkedBytecode = linkLibraries(unlinkedBytecode, links)
+  const bytecode = this.ctr[name].options.data
+  const placeholders = bytecodePlaceholders(bytecode)
 
-    deploymentOptions.data = linkedBytecode
+  // Link if contract has placeholders.
+  if (placeholders.length) {
+    deployOptions.data = bytecodeLink(bytecode, links)
   }
 
   const result = await this.ctr[name]
-    .deploy(deploymentOptions)
+    .deploy(deployOptions)
     .send({
       from,
       gas
