@@ -1,6 +1,6 @@
 {
   "name": "@appliedblockchain/bmono",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Blockchain monorepo/npm - all the little things to prototype blockchain based systems fast.",
   "main": "index.js",
   "scripts": {
