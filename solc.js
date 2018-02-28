@@ -20,7 +20,7 @@ const DEFAULT_SOLC = '/usr/local/bin/solc'
 function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC } = {}) {
 
   function compile(name) {
-    const { stdout, stderr } = sh(`${solc} --combined-json abi,bin ${path.join(root, name)}`)
+    const { stdout, stderr } = sh(`cd ${root} && ${solc} --combined-json abi,bin ${name}`)
     if (stderr) {
       throw new Error('stderr', { stdout, stderr })
     }
