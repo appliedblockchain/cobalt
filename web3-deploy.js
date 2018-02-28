@@ -9,13 +9,16 @@ const nullAddress = '0x0000000000000000000000000000000000000000'
  * Usage:
  *
  *   web3.deploy = require('bmono/web3-deploy')
- *   const foo = await web3.deploy('Foo', [], { from, gas, links: {Lib1: '0x123...', Lib2: '0x234...'} })
+ *   const links = { '__Library.sol:Library___________________': '0x0000000000000000000000000000000000000000' }
+ *   const foo = await web3.deploy('Foo', [], { from, gas, links })
  *   await foo.methods.bar().send({ from, gas })
  *
  * @param {string} name Name of the contract to deploy. Contract needs to be compiled with `web3.compile` before.
  * @param {any[]} args Arguments to be passed to contract's constructor.
- * @param {{ from, gas }} Transaction options.
- * @param {<library name>: <library address>} Libraries linking options.
+ * @param {object?} options Deployment options.
+ * @param {address} options.from
+ * @param {string | number} options.gas
+ * @param {{ [placeholder]: address }?} options.links Links to libraries.
  */
 async function web3Deploy(name, args = [], { from, gas, links = {} } = {}) {
 
@@ -46,7 +49,9 @@ async function web3Deploy(name, args = [], { from, gas, links = {} } = {}) {
     throw new Error(`${name} contract couldn't be deployed, maybe abstract interface does't match?`)
   }
 
+  // Apparently we need to re-set current provider.
   result.setProvider(this.currentProvider)
+
   return result
 }
 
