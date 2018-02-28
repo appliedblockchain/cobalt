@@ -15,8 +15,14 @@ Install `solc`:
 
 ## Installation
 
-    npm i -S @appliedblockchain/bmono
+```sh
+# You need to be logged in to install private @appliedblockchain modules
+npm login
+
+# Add bmono to your dev dependencies
+npm i -D @appliedblockchain/bmono
+```
 
 ## Usage
 
-See `examples` directory.
+See [examples](./examples) directory.
