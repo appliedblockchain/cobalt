@@ -4,7 +4,7 @@ const assert = require('assert')
 const Web3 = require('web3')
 const ganache = require('ganache-core')
 const seedGanacheAccounts = require('./seed-ganache-accounts')
-const { has, get, isFunction, isInteger } = require('lodash')
+const { has, get, isFunction, isInteger, isString } = require('lodash')
 const makeWeb3Require = require('./web3-require')
 const web3Deploy = require('./web3-deploy')
 const web3At = require('./web3-at')
@@ -61,8 +61,20 @@ function makeWeb3(options = {}) {
     }
   }
 
-  const name = get(options, 'provider', DEFAULT_PROVIDER)
-  const { provider, accounts, close } = providers[name](options)
+  let provider, accounts, close
+
+  const optionsProvider = get(options, 'provider', DEFAULT_PROVIDER)
+
+  // Pass provider as is if it's not a string.
+  if (!isString(optionsProvider)) {
+    provider = optionsProvider
+  } else {
+    const result = providers[optionsProvider](options)
+    provider = result.provider
+    accounts = result.accounts
+    close = result.close
+  }
+
   const web3 = new Web3(provider)
 
   // Decorate with `require`.
