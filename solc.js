@@ -3,7 +3,7 @@ const path = require('path')
 const sh = require('./sh-sync')
 
 const DEFAULT_ROOT = './contracts'
-const DEFAULT_SOLC = 'solc'
+const DEFAULT_SOLC = process.env.SOLC || 'solc'
 
 /**
  * Make solidity compiler for `root` base path with contracts.
