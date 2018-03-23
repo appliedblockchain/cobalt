@@ -1,5 +1,4 @@
 
-const path = require('path')
 const sh = require('./sh-sync')
 
 const DEFAULT_ROOT = './contracts'
