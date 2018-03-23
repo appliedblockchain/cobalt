@@ -2,10 +2,8 @@
 require('chai').use(require('chai-as-promised'))
 
 const { web3, accounts } = require('../web3')({ accounts: 10 })
-const isHex0x = require('../is-hex0x')
 const isChecksumAddress = require('../is-checksum-address')
 const { expect } = require('chai')
-const { get } = require('lodash')
 
 const from = accounts[0].address
 const gas = 50000000
