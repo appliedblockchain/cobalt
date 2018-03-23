@@ -4,7 +4,7 @@
   "description": "Blockchain monorepo/npm - all the little things to prototype blockchain based systems fast.",
   "main": "index.js",
   "scripts": {
-    "test": "SOLC='docker run -v $PWD:/solidity ethereum/solc:stable' mocha",
+    "test": "mocha",
     "lint": "eslint ."
   },
   "repository": {
