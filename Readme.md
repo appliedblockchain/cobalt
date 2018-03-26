@@ -38,7 +38,8 @@ See [examples](./examples) directory.
     const { map, first } = require('lodash')
     const { web3, accounts } = require('@appliedblockchain/bmono/web3')({
       // root: `${__dirname}/../contracts`, // Contracts directory, defaults to `contracts` in project root.
-      accounts: 10
+      accounts: 10,
+      logger: console,
     })
 
     const addresses = map(accounts, 'address')
