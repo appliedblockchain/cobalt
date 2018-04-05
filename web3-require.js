@@ -6,7 +6,7 @@ const bytecodePlaceholders = require('./bytecode-placeholders')
 
 function throwOnAmbiguousPlaceholders(bytecode) {
   const ps = bytecodePlaceholders(bytecode)
-  const xs = uniq(map(ps.filter(_1 => _1.ambiguous), 'name'))
+  const xs = uniq(map(ps.filter(_1 => _1.ambiguous && !_1.name.endsWith('___')), 'name'))
   if (xs.length) {
     throw new Error(`Ambiguous placeholders ${xs.join(', ')}.`)
   }

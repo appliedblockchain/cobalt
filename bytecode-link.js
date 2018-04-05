@@ -33,7 +33,11 @@ function bytecodeLink(bytecode, links = {}) {
     }
   }
 
-  return keys(links).reduce((r, k) => r.replace(k, hex0xToHex(links[k])), bytecode)
+  return keys(links).reduce((r, k) =>
+    k.endsWith('___') ?
+      r.split(k).join(hex0xToHex(links[k])) :
+      r.replace(k, hex0xToHex(links[k]))
+  , bytecode)
 }
 
 module.exports = bytecodeLink
