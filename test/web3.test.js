@@ -59,6 +59,10 @@ describe('web3', function () {
       )
     })
 
+    it('should not throw on interface require', () => {
+      expect(() => web3.require('OwnedSet.sol')).to.not.throw()
+    })
+
   })
 
 })
