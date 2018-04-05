@@ -5,6 +5,12 @@ const { each, set, uniq, map, isString } = require('lodash')
 const bytecodePlaceholders = require('./bytecode-placeholders')
 
 function throwOnAmbiguousPlaceholders(bytecode) {
+
+  // Skip check on empty bytecode for interfaces.
+  if (bytecode == null || bytecode === '') {
+    return
+  }
+
   const ps = bytecodePlaceholders(bytecode)
   const xs = uniq(map(ps.filter(_1 => _1.ambiguous && !_1.name.endsWith('___')), 'name'))
   if (xs.length) {
