@@ -27,14 +27,15 @@ const providers = {
     return { provider, accounts, close: null }
   },
 
-  ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = null } = {}) {
+  ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = null, blocktime } = {}) {
     const accounts = seedGanacheAccounts(n)
     const provider = ganache.provider({
       logger,
       unlocked_accounts: accounts.map(_1 => _1.address),
       accounts,
       network_id: chainId,
-      gasLimit
+      gasLimit,
+      blocktime
     })
     return { provider, accounts, close: null }
   }
