@@ -16,10 +16,14 @@ const DEFAULT_SOLC = process.env.SOLC || 'solc'
  * @param {string} .solc = DEFAULT_SOLC ('solc') Solidity compiler should be on your PATH.
  * @return {function} Compiler function.
  */
-function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC } = {}) {
+function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC, allowPaths } = {}) {
+
+  const allowPathsParam = allowPaths ?
+    `--allow-paths ${allowPaths}` :
+    ''
 
   function compile(name) {
-    const { stdout, stderr } = sh(`cd ${root} && ${solc} --allow-paths '../,' --combined-json abi,bin ${name}`)
+    const { stdout, stderr } = sh(`cd ${root} && ${solc} ${allowPathsParam} --combined-json abi,bin ${name}`)
     if (stderr) {
       throw new Error('stderr', { stdout, stderr })
     }

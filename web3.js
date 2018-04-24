@@ -43,6 +43,7 @@ const providers = {
 /**
  * @param {number} .accounts Number of accounts to generate.
  * @param {string} .root Contract's root for `web3.require` so `solc` compiler knows where to look for `.sol` files.
+ * @param {string} .allowPaths Set to '../,' to allow `import "../Foo.sol"` etc.
  * @param {solc} .solc Alternative to root, pass `solc` compiler directly.
  *
  * @return {{ web3: Web3, accounts: array, provider }}
@@ -80,8 +81,9 @@ function makeWeb3(options = {}) {
   // Decorate with `require`.
   const root = get(options, 'root')
   const solc = get(options, 'solc')
+  const allowPaths = get(options, 'allowPaths')
   assert(!web3.require, 'Can\'t overwrite web3.require.')
-  web3.require = makeWeb3Require({ root, solc })
+  web3.require = makeWeb3Require({ root, solc, allowPaths })
 
   // Decorate with `deploy`.
   assert(!web3.deploy, 'Can\'t overwrite web3.deploy.')
