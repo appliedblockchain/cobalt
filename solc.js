@@ -19,7 +19,7 @@ const DEFAULT_SOLC = process.env.SOLC || 'solc'
 function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC } = {}) {
 
   function compile(name) {
-    const { stdout, stderr } = sh(`cd ${root} && ${solc} --combined-json abi,bin ${name}`)
+    const { stdout, stderr } = sh(`cd ${root} && ${solc} --allow-paths '../,' --combined-json abi,bin ${name}`)
     if (stderr) {
       throw new Error('stderr', { stdout, stderr })
     }
