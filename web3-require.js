@@ -31,17 +31,17 @@ function throwOnAmbiguousPlaceholders(bytecode) {
  *
  * @param {solc} .solc
  */
-function make({ root, solc }) {
+function make({ root, solc, allowPaths }) {
 
   // When `root` is defined, construct `solc`.
   if (root) {
     assert(!solc, 'Expected solc to be nil.')
-    solc = require('./solc')({ root })
+    solc = require('./solc')({ root, allowPaths })
   }
 
   // Try to see if we can see `./contracts`.
   if (!solc && isDir('./contracts')) {
-    solc = require('./solc')({ root: './contracts' })
+    solc = require('./solc')({ root: './contracts', allowPaths })
   }
 
   // At this point, we need to have `solc` defined.
