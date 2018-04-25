@@ -14,6 +14,9 @@ const DEFAULT_ACCOUNTS = 1000
 const DEFAULT_GAS_LIMIT = 50000000
 const DEFAULT_CHAIN_ID = 0x11
 const DEFAULT_IPC = `${process.env.HOME}/.local/share/io.parity.ethereum/jsonrpc.ipc`
+const DEFAULT_LOGGER = {
+  log() {}
+}
 
 const providers = {
 
@@ -27,7 +30,7 @@ const providers = {
     return { provider, accounts, close: null }
   },
 
-  ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = null, blocktime } = {}) {
+  ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = DEFAULT_LOGGER, blocktime } = {}) {
     const accounts = seedGanacheAccounts(n)
     const provider = ganache.provider({
       logger,
