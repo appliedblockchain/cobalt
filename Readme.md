@@ -1,11 +1,11 @@
 
 ## Summary
 
-`bmono` (blockchain monorepo/npm), for rapid prototyping.
+`cobalt` (blockchain monorepo/npm), for rapid prototyping.
 
 ## Prerequisites
 
-`bmono` is using command line compiler, make sure it's installed:
+`cobalt` is using command line compiler, make sure it's installed:
 
     brew update
     brew upgrade
@@ -25,7 +25,7 @@ Make sure you've got access to private @appliedblockchain npms:
 
 Add as development dependency:
 
-    npm i -D @appliedblockchain/bmono
+    npm i -D @appliedblockchain/cobalt
 
 ## Usage
 
@@ -36,7 +36,7 @@ See [examples](./examples) directory.
 `test/foo.test.js`
 
     const { map, first } = require('lodash')
-    const { web3, accounts } = require('@appliedblockchain/bmono/web3')({
+    const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
       // root: `${__dirname}/../contracts`, // Contracts directory, defaults to `contracts` in project root.
       accounts: 10,
       logger: console,
@@ -69,3 +69,15 @@ See [examples](./examples) directory.
     test('sends', async () => {
       expect(await foo.methods.sendFoo().send({ from, gas })).toBe('object')
     })
+
+## License
+
+MIT License
+
+Copyright 2018 Applied Blockchain
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -21,8 +21,8 @@ function throwOnAmbiguousPlaceholders(bytecode) {
 /**
  * Usage:
  *
- *   const solc = require('bmono/make-solc')(`${__dirname}/../contracts`)
- *   require('bmono/web3-compile-deploy')(solc)
+ *   const solc = require('@appliedblockchain/cobalt/make-solc')(`${__dirname}/../contracts`)
+ *   require('@appliedblockchain/cobalt/web3-compile-deploy')(solc)
  *
  *   const Web3 = require('web3')
  *   const web3 = new Web3(...)

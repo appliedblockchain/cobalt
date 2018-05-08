@@ -9,7 +9,7 @@ const DEFAULT_SOLC = process.env.SOLC || 'solc'
  *
  * Usage:
  *
- *    const solc = require('bmono/solc')({ root: `${__dirname}/../contracts` })
+ *    const solc = require('@appliedblockchain/cobalt/solc')({ root: `${__dirname}/../contracts` })
  *    const { abi, bin } = solc('Foo.sol')
  *
  * @param {string} .root = DEFAULT_ROOT ('./contracts') Contracts' root directory.
