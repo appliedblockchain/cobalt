@@ -1,7 +1,7 @@
 
 ## Summary
 
-`cobalt` (blockchain monorepo/npm), for rapid prototyping.
+Fast, lightweight ethereum dapp prototyping.
 
 ## Prerequisites
 
@@ -17,6 +17,10 @@ Confirm it's installed:
 
     solc --version
 
+To fetch `solc` compiler in CI (Linux) you can use:
+
+    wget https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+
 ## Installation
 
 Make sure you've got access to private @appliedblockchain npms:
@@ -26,12 +30,6 @@ Make sure you've got access to private @appliedblockchain npms:
 Add as development dependency:
 
     npm i -D @appliedblockchain/cobalt
-
-## Circle CI
-
-To fetch `solc` compiler in circle CI/others:
-
-    wget https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
 
 ## Usage
 
