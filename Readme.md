@@ -27,6 +27,12 @@ Add as development dependency:
 
     npm i -D @appliedblockchain/cobalt
 
+## Circle CI
+
+To fetch `solc` compiler in circle CI/others:
+
+    wget https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+
 ## Usage
 
 See [examples](./examples) directory.
