@@ -8,7 +8,7 @@ const nullAddress = '0x0000000000000000000000000000000000000000'
 /**
  * Usage:
  *
- *   web3.deploy = require('bmono/web3-deploy')
+ *   web3.deploy = require('@appliedblockchain/cobalt/web3-deploy')
  *   const links = { '__Library.sol:Library___________________': '0x0000000000000000000000000000000000000000' }
  *   const foo = await web3.deploy('Foo', [], { from, gas, links })
  *   await foo.methods.bar().send({ from, gas })

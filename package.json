@@ -1,5 +1,5 @@
 {
-  "name": "@appliedblockchain/bmono",
+  "name": "@appliedblockchain/cobalt",
   "version": "0.7.2",
   "description": "Blockchain monorepo/npm - all the little things to prototype blockchain based systems fast.",
   "main": "index.js",
@@ -7,16 +7,13 @@
     "test": "mocha",
     "lint": "eslint ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/appliedblockchain/bmono.git"
-  },
+  "repository": "appliedblockchain/cobalt",
   "author": "Mirek Rusin",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/appliedblockchain/bmono/issues"
+    "url": "https://github.com/appliedblockchain/cobalt/issues"
   },
-  "homepage": "https://github.com/appliedblockchain/bmono#readme",
+  "homepage": "https://github.com/appliedblockchain/cobalt#readme",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",

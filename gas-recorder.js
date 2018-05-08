@@ -8,7 +8,7 @@ const DEFAULT_ETH_TO_USD = 1000.0
 /**
  * Usage:
  *
- *   const { recordGas, dumpRecordedGas } = require('bmono/gas-recorder')
+ *   const { recordGas, dumpRecordedGas } = require('@appliedblockchain/cobalt/gas-recorder')
  *   await contract.methods.foo().send({ from, gas }).then(recordGas('foo'))
  *   dumpRecordedGas()
  *
