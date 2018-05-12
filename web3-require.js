@@ -1,5 +1,6 @@
 
 const fs = require('fs')
+const path = require('path')
 const assert = require('assert')
 const isDir = require('./is-dir-sync')
 const { each, set, uniq, map, isString } = require('lodash')
@@ -59,7 +60,7 @@ function make({ root, solc, allowPaths }) {
     }
 
     const parsed = filename.endsWith('.json') ?
-      parseSolcJson(fs.readFileSync(filename, 'utf8')) :
+      parseSolcJson(fs.readFileSync(path.join(root ? root : './contracts', filename), 'utf8')) :
       solc(filename)
 
     each(parsed, ({ abi, bin: data }, key) => {
