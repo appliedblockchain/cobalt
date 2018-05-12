@@ -1,5 +1,6 @@
 
 const sh = require('./sh-sync')
+const parseSolcJson = require('./parse-solc-json')
 
 const DEFAULT_ROOT = './contracts'
 const DEFAULT_SOLC = process.env.SOLC || 'solc'
@@ -27,12 +28,7 @@ function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC, allowPaths } = {}) {
     if (stderr) {
       throw new Error('stderr', { stdout, stderr })
     }
-    const parsed = JSON.parse(stdout)
-    const r = {}
-    for (const [key, { bin, abi }] of Object.entries(parsed.contracts)) {
-      r[key.split(':')[1]] = { abi: JSON.parse(abi), bin: bin ? '0x' + bin : null }
-    }
-    return r
+    return parseSolcJson(stdout)
   }
 
   return compile

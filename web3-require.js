@@ -1,8 +1,10 @@
 
+const fs = require('fs')
 const assert = require('assert')
 const isDir = require('./is-dir-sync')
 const { each, set, uniq, map, isString } = require('lodash')
 const bytecodePlaceholders = require('./bytecode-placeholders')
+const parseSolcJson = require('./parse-solc-json')
 
 function throwOnAmbiguousPlaceholders(bytecode) {
 
@@ -52,11 +54,15 @@ function make({ root, solc, allowPaths }) {
 
     assert(isString(filename), 'Expected string as filename.')
 
-    if (!filename.endsWith('.sol')) {
-      throw new Error(`Expected .sol file name, but got ${JSON.stringify(filename)}. Did you forget to add .sol extension?`)
+    if (!filename.endsWith('.sol') && !filename.endsWith('.json')) {
+      throw new Error(`Expected .sol or .json file name, but got ${JSON.stringify(filename)}. Did you forget to add .sol or .json extension?`)
     }
 
-    each(solc(filename), ({ abi, bin: data }, key) => {
+    const parsed = filename.endsWith('.json') ?
+      parseSolcJson(fs.readFileSync(filename, 'utf8')) :
+      solc(filename)
+
+    each(parsed, ({ abi, bin: data }, key) => {
       throwOnAmbiguousPlaceholders(data)
       set(this, ['ctr', key], new this.eth.Contract(abi, { from, data }))
     })
