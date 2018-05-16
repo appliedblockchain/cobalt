@@ -1,5 +1,5 @@
 
-const { expect } = require('chai')
+const { expect } = require('code')
 
 const { web3, accounts } = require('../web3')({
   root: `${__dirname}/../contracts`

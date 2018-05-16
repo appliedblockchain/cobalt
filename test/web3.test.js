@@ -1,9 +1,9 @@
 
-require('chai').use(require('chai-as-promised'))
+process.on('warning', err => console.warn(err.stack))
 
+const { expect } = require('code')
 const { web3, accounts } = require('../web3')({ accounts: 10 })
 const isChecksumAddress = require('../is-checksum-address')
-const { expect } = require('chai')
 
 const from = accounts[0].address
 const gas = 50000000
@@ -15,7 +15,7 @@ describe('web3', function () {
     const helloWorld = await web3.deploy('HelloWorld', [], { from, gas })
     expect(isChecksumAddress(helloWorld.options.address)).to.be.true
     const helloWorld2 = web3.at('HelloWorld', helloWorld.options.address)
-    expect(await helloWorld2.methods.helloWorld().call()).to.eq('Hello world!')
+    expect(await helloWorld2.methods.helloWorld().call()).to.equal('Hello world!')
   })
 
   describe('link', function () {
@@ -25,12 +25,12 @@ describe('web3', function () {
     })
 
     it('should require contract with placeholders', () => {
-      web3.require('WithLinks.sol')
+      expect(web3.require('WithLinks.sol')).to.be.an.object()
     })
 
     it('should fail to deploy contract with placeholders without links', async () => {
-      await expect(web3.deploy('WithLinks', [], { from, gas })).to.rejectedWith(
-        'Missing links for "__Library.sol:Library___________________", "__LibraryNameThatOverflowsItsPlacehold__".'
+      await expect(web3.deploy('WithLinks', [], { from, gas })).to.reject(
+        'Missing links for "__Library.sol:Library___________________", "__LibraryNameThatOverflowsItsPlacehold__". Did you forget to provide those links when deploying?'
       )
     })
 
@@ -45,7 +45,7 @@ describe('web3', function () {
         '__LibraryNameThatOverflowsItsPlacehold__': libraryA.options.address
       }
       const withLinks = await web3.deploy('WithLinks', [], { from, gas, links })
-      expect(isChecksumAddress(withLinks.options.address)).to.be.true
+      expect(isChecksumAddress(withLinks.options.address)).to.be.true()
     })
 
     it('should reject extra links', async () => {
@@ -54,7 +54,7 @@ describe('web3', function () {
         '__Library.sol:Library___________________': '0x0000000000000000000000000000000000000000',
         '__LibraryNameThatOverflowsItsPlacehold__': '0x0000000000000000000000000000000000000000'
       }
-      await expect(web3.deploy('WithLinks', [], { from, gas, links })).to.be.rejectedWith(
+      await expect(web3.deploy('WithLinks', [], { from, gas, links })).to.reject(
         'Unnecessary extra links provided "__Extra.sol:Extra_______________________".'
       )
     })

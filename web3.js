@@ -40,6 +40,12 @@ const providers = {
       gasLimit,
       blocktime
     })
+
+    // Apparently there are a lot of listeners.
+    if (provider.getMaxListeners() === 10) {
+      provider.setMaxListeners(35)
+    }
+
     return { provider, accounts, close: null }
   }
 }
