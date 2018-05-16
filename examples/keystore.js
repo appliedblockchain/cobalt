@@ -1,10 +1,11 @@
 
 // const seedPrivateKeys = require('../seed-private-keys')
 // const seedGanacheAccounts = require('../seed-ganache-accounts')
+const { join } = require('path')
 const seedKeystoreAccounts = require('../seed-keystore-accounts')
 const puts = require('../puts')
 
-const accounts = seedKeystoreAccounts(1000, { dir: `${__dirname}/keystore`, c: 1 })
+const accounts = seedKeystoreAccounts(1000, { dir: join(__dirname, 'keystore'), c: 1 })
 puts('%s', JSON.stringify(accounts.map(_1 => _1.address), null, 2))
 
 // for (const { address } of seedGanacheAccounts(1000)) {

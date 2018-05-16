@@ -1,3 +1,6 @@
+
+// const net = require('net')
+const { join } = require('path')
 const assert = require('assert')
 const Web3 = require('web3')
 const ganache = require('ganache-core')
@@ -11,7 +14,7 @@ const DEFAULT_PROVIDER = 'ganache'
 const DEFAULT_ACCOUNTS = 1000
 const DEFAULT_GAS_LIMIT = 50000000
 const DEFAULT_CHAIN_ID = 0x11
-const DEFAULT_IPC = `${process.env.HOME}/.local/share/io.parity.ethereum/jsonrpc.ipc`
+const DEFAULT_IPC = join(process.env.HOME, '.local', 'share', 'io.parity.ethereum', 'jsonrpc.ipc')
 const DEFAULT_LOGGER = {
   log() {}
 }

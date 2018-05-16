@@ -43,7 +43,7 @@ See [examples](./examples) directory.
 
 ## Deploy
 
-Do deploy a contract from shell you can use something like:
+To deploy contract from shell you can use something like:
 
     cobalt-deploy -g 5000000 -f 0xfa9c654833f3e977b0f7c07c60bb69b656a47af7 -s HelloWorld.sol
 
@@ -51,9 +51,10 @@ Do deploy a contract from shell you can use something like:
 
 `test/foo.test.js`
 
+    const { join } = require('path')
     const { map, first } = require('lodash')
     const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
-      // root: `${__dirname}/../contracts`, // Contracts directory, defaults to `contracts` in project root.
+      // root: join(__dirname, '..', 'contracts'), // Contracts directory, defaults to `./contracts`.
       accounts: 10,
       logger: console,
     })
