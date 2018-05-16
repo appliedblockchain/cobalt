@@ -3,9 +3,21 @@
 
 Fast, lightweight ethereum dapp prototyping.
 
+### What is it? What's the difference compared to truffle?
+
+Truffle team did a great job, if truffle framework works for you - you should stay with it.
+
+Cobalt is an alternative take on ethereum dapp development. It's lightweight, no magic (globals etc.), instant compilation (for ultra-short modify-compile-test cycle) same web3@1.x api in tests and production code, straight forward deployment without migrations (we think dapps have more complex deployment story than patterns based on traditional database migrations), small codebase.
+
+Cobalt gives you decorated web3 with:
+* `web3.require('Foo.sol')` - which compiles solidity files and makes them available for deployment, and
+* `const foo = async web3.deploy('Foo', [], { from, gas, links?: { ... }, ... })` - to deploy a contract.
+
+That's all - the rest are helpers to simplify common tasks during dapp development.
+
 ## Prerequisites
 
-`cobalt` is using command line compiler, make sure it's installed:
+`cobalt` is using `solc` command-line compiler, make sure you've got it:
 
     brew update
     brew upgrade
@@ -17,17 +29,11 @@ Confirm it's installed:
 
     solc --version
 
-To fetch `solc` compiler in CI (Linux) you can use:
+If you want to setup Circle CI or similar CI, you can fetch `solc` compiler with:
 
     wget https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
 
 ## Installation
-
-Make sure you've got access to private @appliedblockchain npms:
-
-    npm login
-
-Add as development dependency:
 
     npm i -D @appliedblockchain/cobalt
 
@@ -37,11 +43,9 @@ See [examples](./examples) directory.
 
 ## Deploy
 
-You can use:
+Do deploy a contract from shell you can use something like:
 
     cobalt-deploy -g 5000000 -f 0xfa9c654833f3e977b0f7c07c60bb69b656a47af7 -s HelloWorld.sol
-
-...to deploy contracts.
 
 ### Example jest test
 
