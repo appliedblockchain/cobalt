@@ -6,7 +6,7 @@ const makePrivateKey = require('./make-private-key')
 
 function derive(maybePrivateKey) {
 
-  const privateKey = maybePrivateKey ? maybePrivateKey : makePrivateKey()
+  const privateKey = maybePrivateKey || makePrivateKey()
 
   if (!secp256k1.privateKeyVerify(privateKey)) {
     throw new TypeError('Invalid private key.')

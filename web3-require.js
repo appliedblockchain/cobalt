@@ -33,6 +33,7 @@ function throwOnAmbiguousPlaceholders(bytecode) {
  *   const foo = await web3.deploy('Foo', [], { from, gas })
  *
  * @param {solc} .solc
+ * @returns {object} an ethereum contract
  */
 function make({ root, solc, allowPaths }) {
 
@@ -60,12 +61,12 @@ function make({ root, solc, allowPaths }) {
     }
 
     const parsed = filename.endsWith('.json') ?
-      parseSolcJson(fs.readFileSync(path.join(root ? root : './contracts', filename), 'utf8')) :
+      parseSolcJson(fs.readFileSync(path.join(root || './contracts', filename), 'utf8')) :
       solc(filename)
 
     each(parsed, ({ abi, bin: data }, key) => {
       throwOnAmbiguousPlaceholders(data)
-      set(this, ['ctr', key], new this.eth.Contract(abi, { from, data }))
+      set(this, [ 'ctr', key ], new this.eth.Contract(abi, { from, data }))
     })
     return this.ctr
   }

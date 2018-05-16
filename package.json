@@ -19,9 +19,13 @@
   },
   "homepage": "https://github.com/appliedblockchain/cobalt#readme",
   "devDependencies": {
+    "@appliedblockchain/eslint-config": "^2.2.0",
     "code": "^5.2.0",
     "eslint": "^4.19.1",
     "mocha": "^5.1.1"
+  },
+  "eslintConfig": {
+    "extends": "@appliedblockchain"
   },
   "dependencies": {
     "commander": "^2.15.1",

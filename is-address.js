@@ -7,10 +7,10 @@ const isHex0x = require('./is-hex0x')
  * For strict checks @see `isChecksumAddress`.
  *
  * @param {any} value
- * @return {boolean}
+ * @return {boolean} value is an ethereum address
  */
 function isAddress(value) {
-  return isHex0x(value) && value.length === 2 + 20 * 2
+  return isHex0x(value) && value.length === 2 + (20 * 2)
 }
 
 module.exports = isAddress
