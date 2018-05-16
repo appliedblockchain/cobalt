@@ -10,7 +10,7 @@ function bytecodePlaceholders(value) {
   while ((p = re.exec(value))) {
     ps.push({ name: p[0], index: p.index })
   }
-  ps.forEach(p => p.ambiguous = sumBy(ps, _1 => _1.name === p.name ? 1 : 0) > 1)
+  ps.forEach(p => (p.ambiguous = sumBy(ps, _1 => (_1.name === p.name ? 1 : 0)) > 1))
   return ps
 }
 

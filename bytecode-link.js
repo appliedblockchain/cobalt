@@ -8,7 +8,7 @@ const jsonStringify = require('./json-stringify')
   * Replace placeholders with provided addresses.
   *
   * @param {string} bytecode Unlinked bytecode.
-  * @param {{ [__placeholder__]: address }} Placeholder to address mapping.
+  * @param {object} links Placeholder to address mapping.
   * @return {hex0x} Linked bytecode.
   */
 function bytecodeLink(bytecode, links = {}) {

@@ -14,11 +14,11 @@ const nullAddress = '0x0000000000000000000000000000000000000000'
  *   await foo.methods.bar().send({ from, gas })
  *
  * @param {string} name Name of the contract to deploy. Contract needs to be compiled with `web3.compile` before.
- * @param {any[]} args Arguments to be passed to contract's constructor.
+ * @param {array} args Arguments to be passed to contract's constructor.
  * @param {object} options Deployment options.
  * @param {address} options.from
  * @param {string | number} options.gas
- * @param {{ [placeholder]: address }?} options.links Links to libraries.
+ * @param {object?} options.links Links to libraries.
  * @returns {object} object with provider and address.
  */
 async function web3Deploy(name, args = [], { from, gas, links = {} } = {}) {

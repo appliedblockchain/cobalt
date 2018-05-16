@@ -11,7 +11,7 @@ const { Writable } = require('stream')
 function shSync(cmd) {
   let stderr = ''
   const stdout = execSync(cmd, {
-    stderr: (new Writable()).on('data', _1 => stderr += _1),
+    stderr: (new Writable()).on('data', _1 => (stderr += _1)),
     encoding: 'utf8'
   })
   return { stdout, stderr }
