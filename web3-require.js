@@ -24,7 +24,8 @@ function throwOnAmbiguousPlaceholders(bytecode) {
 /**
  * Usage:
  *
- *   const solc = require('@appliedblockchain/cobalt/make-solc')(`${__dirname}/../contracts`)
+ *   const { join } = require('path')
+ *   const solc = require('@appliedblockchain/cobalt/make-solc')({ root: join(__dirname, '..', 'contracts') })
  *   require('@appliedblockchain/cobalt/web3-compile-deploy')(solc)
  *
  *   const Web3 = require('web3')

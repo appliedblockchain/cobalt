@@ -1,3 +1,5 @@
+
+const { join } = require('path')
 const fs = require('fs')
 const isDir = require('./is-dir-sync')
 const keythereum = require('keythereum')
@@ -32,7 +34,7 @@ function seedKeystoreAccounts(n, { seed, dir, c } = {}) {
 
   // Save to files if `dir` was provided.
   if (isDir(dir)) {
-    accounts.forEach(_1 => fs.writeFileSync(`${dir}/${_1.address}.json`, JSON.stringify(_1, null, 2) + '\n'))
+    accounts.forEach(_1 => fs.writeFileSync(join(dir, `${_1.address}.json`), JSON.stringify(_1, null, 2) + '\n'))
   }
 
   return accounts
