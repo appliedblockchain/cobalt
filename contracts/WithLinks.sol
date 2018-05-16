@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.23;
 
 import "./Library.sol";
 import "./LibraryNameThatOverflowsItsPlaceholderA.sol";
@@ -12,7 +12,7 @@ contract WithLinks {
     uint longLengthA = LibraryNameThatOverflowsItsPlaceholderA.longLengthA(bytes(_string));
 
     if (length > 0) {
-      Event(_string);
+      emit Event(_string);
     }
 
     return length + longLengthA;

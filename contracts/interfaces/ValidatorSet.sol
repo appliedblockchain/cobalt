@@ -12,7 +12,7 @@
 //! See the License for the specific language governing permissions and
 //! limitations under the License.
 
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.23;
 
 contract ValidatorSet {
 	/// Issue this log event to signal a desired change in validator set.
