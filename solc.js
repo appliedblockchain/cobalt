@@ -10,7 +10,8 @@ const DEFAULT_SOLC = process.env.SOLC || 'solc'
  *
  * Usage:
  *
- *    const solc = require('@appliedblockchain/cobalt/solc')({ root: `${__dirname}/../contracts` })
+ *    const { join } = require('path')
+ *    const solc = require('@appliedblockchain/cobalt/solc')({ root: join(__dirname, '..', 'contracts`) })
  *    const { abi, bin } = solc('Foo.sol')
  *
  * @param {string} .root = DEFAULT_ROOT ('./contracts') Contracts' root directory.

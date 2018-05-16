@@ -1,8 +1,9 @@
 
+const { join } = require('path')
 const { expect } = require('code')
 
 const { web3, accounts } = require('../web3')({
-  root: `${__dirname}/../contracts`
+  root: join(__dirname, '..', 'contracts')
 })
 
 const from = accounts[0].address

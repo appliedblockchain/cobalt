@@ -51,9 +51,10 @@ Do deploy a contract from shell you can use something like:
 
 `test/foo.test.js`
 
+    const { join } = require('path')
     const { map, first } = require('lodash')
     const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
-      // root: `${__dirname}/../contracts`, // Contracts directory, defaults to `contracts` in project root.
+      // root: join(__dirname, '..', 'contracts'), // Contracts directory, defaults to `./contracts`.
       accounts: 10,
       logger: console,
     })
