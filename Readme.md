@@ -35,6 +35,14 @@ Add as development dependency:
 
 See [examples](./examples) directory.
 
+## Deploy
+
+You can use:
+
+    cobalt-deploy -g 5000000 -f 0xfa9c654833f3e977b0f7c07c60bb69b656a47af7 -s HelloWorld.sol
+
+...to deploy contracts.
+
 ### Example jest test
 
 `test/foo.test.js`

@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "cobalt-deploy": "./bin/cobalt-deploy.js"
+  },
+  "bin": {
+    "cobalt-deploy": "./bin/cobalt-deploy.js"
   },
   "repository": "appliedblockchain/cobalt",
   "author": "Mirek Rusin",
@@ -21,6 +25,7 @@
     "mocha": "^5.1.1"
   },
   "dependencies": {
+    "commander": "^2.15.1",
     "ganache-core": "^2.1.0",
     "keccak": "^1.4.0",
     "keythereum": "^1.0.3",
