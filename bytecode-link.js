@@ -4,11 +4,11 @@ const hex0xToHex = require('./hex0x-to-hex')
 const bytecodePlaceholders = require('./bytecode-placeholders')
 const jsonStringify = require('./json-stringify')
 
- /**
+/**
   * Replace placeholders with provided addresses.
   *
   * @param {string} bytecode Unlinked bytecode.
-  * @param {{ [__placeholder__]: address }} Placeholder to address mapping.
+  * @param {object} links Placeholder to address mapping.
   * @return {hex0x} Linked bytecode.
   */
 function bytecodeLink(bytecode, links = {}) {
@@ -37,7 +37,7 @@ function bytecodeLink(bytecode, links = {}) {
     k.endsWith('___') ?
       r.split(k).join(hex0xToHex(links[k])) :
       r.replace(k, hex0xToHex(links[k]))
-  , bytecode)
+    , bytecode)
 }
 
 module.exports = bytecodeLink

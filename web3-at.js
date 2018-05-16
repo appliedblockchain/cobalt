@@ -10,11 +10,12 @@ const { has } = require('lodash')
  *
  * @param {string} name Name of the contract. Contract needs to be compiled with `web3.compile` before.
  * @param {string} address Contract's address.
+ * @returns {object} object with provider and address.
  */
 function web3At(name, address) {
 
   // Check if contract has been registered.
-  if (!has(this, ['ctr', name])) {
+  if (!has(this, [ 'ctr', name ])) {
     throw new Error(`${name} contract not found, did you forget web3.require('${name}.sol')?`)
   }
 

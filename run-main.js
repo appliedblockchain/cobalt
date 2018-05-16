@@ -10,7 +10,7 @@ function onError(err) {
   console.error(get(err, 'stack', err))
 }
 
-function runMain(main, { args = process.argv, beforeExit = noop} = {}) {
+function runMain(main, { args = process.argv, beforeExit = noop } = {}) {
 
   if (!isFunction(main)) {
     throw new TypeError('Expected main to be a function.')

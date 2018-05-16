@@ -52,12 +52,13 @@ const providers = {
 }
 
 /**
- * @param {number} .accounts Number of accounts to generate.
- * @param {string} .root Contract's root for `web3.require` so `solc` compiler knows where to look for `.sol` files.
- * @param {string} .allowPaths Set to '../,' to allow `import "../Foo.sol"` etc.
- * @param {solc} .solc Alternative to root, pass `solc` compiler directly.
+ * @param {object} options
+ * @param {number} options.accounts Number of accounts to generate.
+ * @param {string} options.root Contract's root for `web3.require` so `solc` compiler knows where to look for `.sol` files.
+ * @param {string} options.allowPaths Set to '../,' to allow `import "../Foo.sol"` etc.
+ * @param {solc} options.solc Alternative to root, pass `solc` compiler directly.
  *
- * @return {{ web3: Web3, accounts: array, provider }}
+ * @return {object} { web3: Web3, accounts: array, provider }
  */
 function makeWeb3(options = {}) {
 

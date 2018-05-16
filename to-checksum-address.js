@@ -16,7 +16,7 @@ function toChecksumAddress(value) {
     throw new TypeError(`Expected string, got ${typeof value}.`)
   }
 
-  if (value.length !== 2 + 20 * 2) {
+  if (value.length !== 2 + (20 * 2)) {
     throw new TypeError(`Invalid input size ${value.length}, expected 2 + 20 * 2.`)
   }
 
