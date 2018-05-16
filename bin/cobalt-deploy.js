@@ -2,7 +2,7 @@
 
 const path = require('path')
 const assert = require('assert')
-const { get, set, isString } = require('lodash')
+const { get, set } = require('lodash')
 const program = require('commander')
 const pkg = require('../package.json')
 const makeWeb3 = require('../web3')
