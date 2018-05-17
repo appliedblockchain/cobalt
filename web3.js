@@ -93,9 +93,10 @@ function makeWeb3(options = {}) {
   // Decorate with `require`.
   const root = get(options, 'root')
   const solc = get(options, 'solc')
+  const solcVersion = get(options, 'solcVersion')
   const allowPaths = get(options, 'allowPaths')
   assert(!web3.require, 'Can\'t overwrite web3.require.')
-  web3.require = makeWeb3Require({ root, solc, allowPaths })
+  web3.require = makeWeb3Require({ root, solc, solcVersion, allowPaths })
 
   // Decorate with `deploy`.
   assert(!web3.deploy, 'Can\'t overwrite web3.deploy.')

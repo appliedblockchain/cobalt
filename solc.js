@@ -16,13 +16,18 @@ const DEFAULT_SOLC = process.env.SOLC || 'solc'
  *
  * @param {string} .root = DEFAULT_ROOT ('./contracts') Contracts' root directory.
  * @param {string} .solc = DEFAULT_SOLC ('solc') Solidity compiler should be on your PATH.
+ * @param {string} .solcVersion Solidity docker image tag to use. Overrides solc option.
  * @return {function} Compiler function.
  */
-function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC, allowPaths } = {}) {
+function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC, allowPaths, solcVersion } = {}) {
 
   const allowPathsParam = allowPaths ?
     `--allow-paths ${allowPaths}` :
     ''
+
+  if (solcVersion) {
+    solc = `docker run -v $(pwd):/solidity ethereum/solc:${solcVersion}`
+  }
 
   function compile(name) {
     const { stdout, stderr } = sh(`cd ${root} && ${solc} ${allowPathsParam} --combined-json abi,bin ${name}`)

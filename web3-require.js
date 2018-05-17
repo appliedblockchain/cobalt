@@ -36,17 +36,17 @@ function throwOnAmbiguousPlaceholders(bytecode) {
  * @param {solc} .solc
  * @returns {object} an ethereum contract
  */
-function make({ root, solc, allowPaths }) {
+function make({ root, solc, allowPaths, solcVersion }) {
 
   // When `root` is defined, construct `solc`.
   if (root) {
     assert(!solc, 'Expected solc to be nil.')
-    solc = require('./solc')({ root, allowPaths })
+    solc = require('./solc')({ root, allowPaths, solcVersion })
   }
 
   // Try to see if we can see `./contracts`.
   if (!solc && isDir('./contracts')) {
-    solc = require('./solc')({ root: './contracts', allowPaths })
+    solc = require('./solc')({ root: './contracts', allowPaths, solcVersion })
   }
 
   // At this point, we need to have `solc` defined.

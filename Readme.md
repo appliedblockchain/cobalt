@@ -47,6 +47,10 @@ To deploy contract from shell you can use something like:
 
     cobalt-deploy -g 5000000 -f 0xfa9c654833f3e977b0f7c07c60bb69b656a47af7 -s HelloWorld.sol
 
+To compile with a solc docker container, specify a solc version:
+
+    cobalt-deploy -g 5000000 -f 0xfa9c654833f3e977b0f7c07c60bb69b656a47af7 -s HelloWorld.sol --solc-version=0.4.21
+
 ### Example jest test
 
 `test/foo.test.js`

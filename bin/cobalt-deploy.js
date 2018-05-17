@@ -25,6 +25,7 @@ function jsonParse(value) {
 program
   .version(pkg.version)
   .option('-p, --provider [provider]', 'Set provider.', 'http://localhost:8545')
+  .option('--solc-version <version>', 'Solidity compiler version. Uses solc on PATH if not provided.')
   .option('-r, --root [root]', 'Contract\'s root directory.', './contracts')
   .option('-s, --sol <sol>', 'Solidity file.')
   .option('-c, --contract [contract]', 'Contract name, defaults to solidity file without extension.')
@@ -52,8 +53,8 @@ if (!isHex0x(program.from)) {
 }
 
 const provider = makeProvider(program.provider)
-const { root, sol, args, from, gas, link: links } = program
-const { web3 } = makeWeb3({ provider, root })
+const { root, sol, solcVersion, args, from, gas, link: links } = program
+const { web3 } = makeWeb3({ provider, root, solcVersion })
 
 web3.require(sol)
 
