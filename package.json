@@ -4,7 +4,7 @@
   "description": "Blockchain monorepo/npm - all the little things to prototype blockchain based systems fast.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha -t 5000",
     "lint": "eslint . --ext .js --ignore-pattern .gitignore",
     "cobalt-deploy": "./bin/cobalt-deploy.js"
   },
