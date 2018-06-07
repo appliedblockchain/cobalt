@@ -17,7 +17,7 @@ That's all - the rest are helpers to simplify common tasks during dapp developme
 
 ## Prerequisites
 
-`cobalt` is using `solc` command-line compiler, make sure you've got it:
+`cobalt` uses the `solc` command-line compiler, make sure you've got it:
 
     brew update
     brew upgrade
@@ -43,50 +43,74 @@ See [examples](./examples) directory.
 
 ## Deploy
 
-To deploy contract from shell you can use something like:
+To deploy a contract from your terminal you can use something like:
 
     cobalt-deploy -g 5000000 -f 0xfa9c654833f3e977b0f7c07c60bb69b656a47af7 -s HelloWorld.sol
 
 ### Example jest test
 
-`test/foo.test.js`
+`./contracts/Foo.sol`
+```solidity
+  pragma solidity ^0.4.23;
 
-    const { join } = require('path')
-    const { map, first } = require('lodash')
-    const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
-      // root: join(__dirname, '..', 'contracts'), // Contracts directory, defaults to `./contracts`.
-      accounts: 10,
-      logger: console,
-    })
+  contract Foo {
+    string myVariable;
 
-    const addresses = map(accounts, 'address')
-    const from = first(addresses)
-    const gas = 50000000
+    function sendFoo(string data) public {
+      myVariable = data;
+    }
 
-    // Compile one or more sol files.
-    web3.require('Foo.sol')
+    function getFoo() constant public returns (string) {
+      return myVariable;
+    }
+  }
+```
+`./test/foo.test.js`
+  ```javascript
+  const { join } = require('path')
+  const { map, first } = require('lodash')
+  const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
+    root: join(__dirname, '..', 'contracts'), // Contracts directory: if removed, defaults to `./contracts`.
+    accounts: 10,
+    logger: console
+  })
 
-    afterAll(async () => {
-      web3.close()
-    })
+  const addresses = map(accounts, 'address')
+  const from = first(addresses)
+  const gas = 50000000
 
-    let foo
+  // Compile one or more .sol files.
+  web3.require('Foo.sol')
+
+  afterAll(async () => {
+    web3.close()
+  })
+
+  describe('Foo', () => {
+    let Foo
 
     test('deploys', async () => {
+      const contractConstructorArgs = []
+      Foo = await web3.deploy(
+        'Foo',
+        contractConstructorArgs,
+        { from, gas }
+      )
 
-      // Second argument, an empty array is a list of constructor arguments of this contract.
-      foo = await web3.deploy('Foo', [], { from, gas })
-      expect(foo.options.address).toBe('string')
+      expect(typeof Foo.options.address).toBe('string')
+      expect(Foo.options.address.length > 1).toBe(true)
     })
 
-    test('calls', async () => {
-      expect(await foo.methods.getFoo().call()).toEqual('foo')
-    })
+    test('sets and gets data', async () => {
+      const data = 'someData'
+      await Foo.methods.sendFoo(data).send({ from, gas })
 
-    test('sends', async () => {
-      expect(await foo.methods.sendFoo().send({ from, gas })).toBe('object')
-    })
+      const result = await Foo.methods.getFoo().call()
 
+      expect(result).toEqual(data)
+    })
+  })
+```
 ## License
 
 MIT License
