@@ -17,7 +17,7 @@ That's all - the rest are helpers to simplify common tasks during dapp developme
 
 ## Prerequisites
 
-`cobalt` is using `solc` command-line compiler, make sure you've got it:
+`cobalt` uses the `solc` command-line compiler, make sure you've got it:
 
     brew update
     brew upgrade
@@ -43,7 +43,7 @@ See [examples](./examples) directory.
 
 ## Deploy
 
-To deploy contract from shell you can use something like:
+To deploy a contract from your terminal you can use something like:
 
     cobalt-deploy -g 5000000 -f 0xfa9c654833f3e977b0f7c07c60bb69b656a47af7 -s HelloWorld.sol
 
@@ -54,7 +54,7 @@ To deploy contract from shell you can use something like:
     const { join } = require('path')
     const { map, first } = require('lodash')
     const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
-      // root: join(__dirname, '..', 'contracts'), // Contracts directory, defaults to `./contracts`.
+      root: join(__dirname, '..', 'contracts'), // Contracts directory, defaults to `./contracts`.
       accounts: 10,
       logger: console,
     })
@@ -63,7 +63,7 @@ To deploy contract from shell you can use something like:
     const from = first(addresses)
     const gas = 50000000
 
-    // Compile one or more sol files.
+    // Compile one or more .sol files.
     web3.require('Foo.sol')
 
     afterAll(async () => {
@@ -73,8 +73,7 @@ To deploy contract from shell you can use something like:
     let foo
 
     test('deploys', async () => {
-
-      // Second argument, an empty array is a list of constructor arguments of this contract.
+      // The second argument, an empty array, is a list of constructor arguments for this contract.
       foo = await web3.deploy('Foo', [], { from, gas })
       expect(foo.options.address).toBe('string')
     })
