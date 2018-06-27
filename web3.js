@@ -1,6 +1,6 @@
 
 // const net = require('net')
-const { join } = require('path')
+// const { join } = require('path')
 const assert = require('assert')
 const Web3 = require('web3')
 const ganache = require('ganache-core')
@@ -14,21 +14,25 @@ const DEFAULT_PROVIDER = 'ganache'
 const DEFAULT_ACCOUNTS = 1000
 const DEFAULT_GAS_LIMIT = 50000000
 const DEFAULT_CHAIN_ID = 0x11
-const DEFAULT_IPC = join(process.env.HOME, '.local', 'share', 'io.parity.ethereum', 'jsonrpc.ipc')
 const DEFAULT_LOGGER = {
   log() {}
 }
 
+const DEFAULT_PARITY_HOST = 'http://localhost:8545'
+
 const providers = {
 
-  // TODO: Not complete/tested.
-  parity({ ipc = DEFAULT_IPC, accounts: n = DEFAULT_ACCOUNTS } = {}) {
-    console.log({ ipc })
-    const accounts = seedGanacheAccounts(n) // TODO: FIXME:
-    // const provider = new Web3.providers.IpcProvider(ipc, net)
-    // const provider = new Web3.providers.WebsocketProvider('ws://localhost:8546')
-    const provider = new Web3.providers.HttpProvider('http://localhost:8545')
-    return { provider, accounts, close: null }
+  parity({ host = DEFAULT_PARITY_HOST } = {}) {
+    let provider
+    if (host.startsWith('http')) {
+      provider = new Web3.providers.HttpProvider(host)
+    } else if (host.startsWith('ws')) {
+      provider = new Web3.providers.WebsocketProvider(host)
+    } else {
+      throw new Error('Invalid host url for provider: ' + host)
+    }
+
+    return { provider, accounts: [], close: null }
   },
 
   ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = DEFAULT_LOGGER, blocktime } = {}) {

@@ -2,6 +2,7 @@
 process.on('warning', err => console.warn(err.stack))
 
 const { expect } = require('code')
+const Web3 = require('../web3')
 const { web3, accounts } = require('../web3')({ accounts: 10 })
 const isChecksumAddress = require('../is-checksum-address')
 
@@ -16,6 +17,29 @@ describe('web3', function () {
     expect(isChecksumAddress(helloWorld.options.address)).to.be.true
     const helloWorld2 = web3.at('HelloWorld', helloWorld.options.address)
     expect(await helloWorld2.methods.helloWorld().call()).to.equal('Hello world!')
+  })
+
+  describe('provider', function () {
+    it('can use parity as a provider', () => {
+      // eslint-disable-next-line
+      const web3 = Web3({provider: 'parity'})
+
+      expect(web3.provider.constructor.name).to.equal('HttpProvider')
+      expect(web3.provider.host).to.equal('http://localhost:8545')
+    })
+
+    it('can set the url for the parity provider, and it can be a websocket', () => {
+      // eslint-disable-next-line
+      const web3 = Web3({provider: 'parity', host: 'ws://myhost:8546' })
+
+      expect(web3.provider.constructor.name).to.equal('WebsocketProvider')
+    })
+
+    it('throws an error if the parity host is invalid', () => {
+      // eslint-disable-next-line
+      expect(() => {Web3({provider: 'parity', host: 'wXs://myhost' })})
+        .to.throw(Error)
+    })
   })
 
   describe('link', function () {
