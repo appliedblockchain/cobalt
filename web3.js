@@ -1,6 +1,5 @@
 
-// const net = require('net')
-// const { join } = require('path')
+const net = require('net')
 const assert = require('assert')
 const Web3 = require('web3')
 const ganache = require('ganache-core')
@@ -24,9 +23,12 @@ const providers = {
 
   parity({ host = DEFAULT_PARITY_HOST } = {}) {
     let provider
-    if (host.startsWith('http')) {
+
+    if (host.startsWith('ipc://')) {
+      provider = new Web3.providers.IpcProvider(host, net)
+    } else if (host.match(/^https?:\/\//)) {
       provider = new Web3.providers.HttpProvider(host)
-    } else if (host.startsWith('ws')) {
+    } else if (host.match(/^wss?:\/\//)) {
       provider = new Web3.providers.WebsocketProvider(host)
     } else {
       throw new Error('Invalid host url for provider: ' + host)
