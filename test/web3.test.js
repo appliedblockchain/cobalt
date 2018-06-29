@@ -2,6 +2,7 @@
 process.on('warning', err => console.warn(err.stack))
 
 const { expect } = require('code')
+const Web3 = require('../web3')
 const { web3, accounts } = require('../web3')({ accounts: 10 })
 const isChecksumAddress = require('../is-checksum-address')
 
@@ -16,6 +17,30 @@ describe('web3', function () {
     expect(isChecksumAddress(helloWorld.options.address)).to.be.true
     const helloWorld2 = web3.at('HelloWorld', helloWorld.options.address)
     expect(await helloWorld2.methods.helloWorld().call()).to.equal('Hello world!')
+  })
+
+  describe('provider', function () {
+    it('can autodetect the provider when passed a string', () => {
+      // eslint-disable-next-line
+      let web3 = Web3({ provider: 'http://localhost:8545'})
+      expect(web3.provider.constructor.name).to.equal('HttpProvider')
+
+
+      // eslint-disable-next-line
+      web3 = Web3({ provider: 'ws://myhost:8546' })
+      expect(web3.provider.constructor.name).to.equal('WebsocketProvider')
+
+
+      // eslint-disable-next-line
+      web3 = Web3({ provider: 'ipc:///somepath' })
+      expect(web3.provider.constructor.name).to.equal('IpcProvider')
+    })
+
+    it('throws an error if the provider is invalid', () => {
+      // eslint-disable-next-line
+      expect(() => {Web3({ provider: 'wXs://myhost' })})
+        .to.throw(Error)
+    })
   })
 
   describe('link', function () {
