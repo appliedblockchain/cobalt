@@ -20,33 +20,26 @@ describe('web3', function () {
   })
 
   describe('provider', function () {
-    it('can use parity as a provider', () => {
+    it('can autodetect the provider when passed a string', () => {
       // eslint-disable-next-line
-      const web3 = Web3({ provider: 'parity'})
-
+      let web3 = Web3({ provider: 'http://localhost:8545'})
       expect(web3.provider.constructor.name).to.equal('HttpProvider')
-      expect(web3.provider.host).to.equal('http://localhost:8545')
-    })
 
-    it('can set the url for the parity provider, and it can be a websocket', () => {
+
       // eslint-disable-next-line
-      const web3 = Web3({ provider: 'parity', host: 'ws://myhost:8546' })
-
+      web3 = Web3({ provider: 'ws://myhost:8546' })
       expect(web3.provider.constructor.name).to.equal('WebsocketProvider')
-    })
 
-    it('throws an error if the parity host is invalid', () => {
+
       // eslint-disable-next-line
-      expect(() => {Web3({ provider: 'parity', host: 'wXs://myhost' })})
-        .to.throw(Error)
-    })
-
-    it('use the default ipc provider when the host starts with ipc', () => {
-      // eslint-disable-next-line
-      const web3 = Web3({ provider: 'parity', host: 'ipc:///somepath' })
-
+      web3 = Web3({ provider: 'ipc:///somepath' })
       expect(web3.provider.constructor.name).to.equal('IpcProvider')
-      expect(web3.provider.path).to.equal('ipc:///somepath')
+    })
+
+    it('throws an error if the provider is invalid', () => {
+      // eslint-disable-next-line
+      expect(() => {Web3({ provider: 'wXs://myhost' })})
+        .to.throw(Error)
     })
   })
 

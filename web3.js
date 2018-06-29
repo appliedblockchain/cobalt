@@ -17,26 +17,7 @@ const DEFAULT_LOGGER = {
   log() {}
 }
 
-const DEFAULT_PARITY_HOST = 'http://localhost:8545'
-
 const providers = {
-
-  parity({ host = DEFAULT_PARITY_HOST } = {}) {
-    let provider
-
-    if (host.startsWith('ipc://')) {
-      provider = new Web3.providers.IpcProvider(host, net)
-    } else if (host.match(/^https?:\/\//)) {
-      provider = new Web3.providers.HttpProvider(host)
-    } else if (host.match(/^wss?:\/\//)) {
-      provider = new Web3.providers.WebsocketProvider(host)
-    } else {
-      throw new Error('Invalid host url for provider: ' + host)
-    }
-
-    return { provider, accounts: [], close: null }
-  },
-
   ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = DEFAULT_LOGGER, blocktime } = {}) {
     const accounts = seedGanacheAccounts(n)
     const provider = ganache.provider({
@@ -87,14 +68,23 @@ function makeWeb3(options = {}) {
   // Pass provider as is if it's not a string.
   if (!isString(optionsProvider)) {
     provider = optionsProvider
-  } else {
+  } else if (optionsProvider === DEFAULT_PROVIDER) {
     const result = providers[optionsProvider](options)
     provider = result.provider
     accounts = result.accounts
     close = result.close
+  } else if (optionsProvider.startsWith('ipc://')) {
+    provider = new Web3.providers.IpcProvider(optionsProvider, net)
+  } else {
+    provider = optionsProvider
   }
 
   const web3 = new Web3(provider)
+
+  // replace provider string with the auto-detected provider
+  if (isString(provider)) {
+    provider = web3.currentProvider
+  }
 
   // Decorate with `require`.
   const root = get(options, 'root')
