@@ -1,6 +1,6 @@
 {
   "name": "@appliedblockchain/cobalt",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Blockchain monorepo/npm - all the little things to prototype blockchain based systems fast.",
   "main": "index.js",
   "scripts": {
