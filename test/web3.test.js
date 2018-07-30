@@ -21,25 +21,25 @@ describe('web3', function () {
 
   describe('provider', function () {
     it('can autodetect the provider when passed a string', () => {
-      // eslint-disable-next-line
-      let web3 = Web3({ provider: 'http://localhost:8545'})
+      // eslint-disable-next-line new-cap
+      let web3 = Web3({ provider: 'http://localhost:8545' })
       expect(web3.provider.constructor.name).to.equal('HttpProvider')
 
 
-      // eslint-disable-next-line
+      // eslint-disable-next-line new-cap
       web3 = Web3({ provider: 'ws://myhost:8546' })
       expect(web3.provider.constructor.name).to.equal('WebsocketProvider')
 
 
-      // eslint-disable-next-line
+      // eslint-disable-next-line new-cap
       web3 = Web3({ provider: 'ipc:///somepath' })
       expect(web3.provider.constructor.name).to.equal('IpcProvider')
     })
 
     it('throws an error if the provider is invalid', () => {
-      // eslint-disable-next-line
-      expect(() => {Web3({ provider: 'wXs://myhost' })})
-        .to.throw(Error)
+      expect(() => {
+        Web3({ provider: 'wXs://myhost' }) // eslint-disable-line new-cap
+      }).to.throw(Error)
     })
   })
 
