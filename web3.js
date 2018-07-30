@@ -2,15 +2,16 @@
 const net = require('net')
 const assert = require('assert')
 const Web3 = require('web3')
+const BN = require('bn.js')
 const ganache = require('ganache-core')
-const seedGanacheAccounts = require('./seed-ganache-accounts')
-const { has, get, isFunction, isInteger, isString } = require('lodash')
+const { has, get, isFunction, isInteger, isString, values } = require('lodash')
 const makeWeb3Require = require('./web3-require')
 const web3Deploy = require('./web3-deploy')
 const web3At = require('./web3-at')
 
 const DEFAULT_PROVIDER = 'ganache'
 const DEFAULT_ACCOUNTS = 1000
+const DEFAULT_MNEMONIC = 'awake book subject inch gentle blur grant damage process float month clown'
 const DEFAULT_GAS_LIMIT = 50000000
 const DEFAULT_CHAIN_ID = 0x11
 const DEFAULT_LOGGER = {
@@ -18,12 +19,17 @@ const DEFAULT_LOGGER = {
 }
 
 const providers = {
-  ganache({ accounts: n = DEFAULT_ACCOUNTS, chainId = DEFAULT_CHAIN_ID, gasLimit = DEFAULT_GAS_LIMIT, logger = DEFAULT_LOGGER, blocktime } = {}) {
-    const accounts = seedGanacheAccounts(n)
+  ganache({
+    accounts: n = DEFAULT_ACCOUNTS,
+    mnemonic = DEFAULT_MNEMONIC,
+    chainId = DEFAULT_CHAIN_ID,
+    gasLimit = DEFAULT_GAS_LIMIT,
+    logger = DEFAULT_LOGGER, blocktime } = {}) {
+
     const provider = ganache.provider({
       logger,
-      unlocked_accounts: accounts.map(_1 => _1.address),
-      accounts,
+      mnemonic: mnemonic,
+      total_accounts: n,
       network_id: chainId,
       gasLimit,
       blocktime
@@ -34,12 +40,23 @@ const providers = {
       provider.setMaxListeners(35)
     }
 
+    const accounts = values(provider.manager.state.accounts).map((account) => {
+      var balance = new BN(account.account.balance).divRound(new BN('1000000000000000000')).toString()
+      return {
+        secretKey: '0x' + account.secretKey.toString('hex'),
+        publicKey: '0x' + account.publicKey.toString('hex'),
+        address: account.address,
+        balance: balance
+      }
+    })
+
     return { provider, accounts, close: null }
   }
 }
 
 /**
  * @param {object} options
+ * @param {number} options.mnemonic Seed Ganache accounts with a mnemonic of choice
  * @param {number} options.accounts Number of accounts to generate.
  * @param {string} options.root Contract's root for `web3.require` so `solc` compiler knows where to look for `.sol` files.
  * @param {string} options.allowPaths Set to '../,' to allow `import "../Foo.sol"` etc.
