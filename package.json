@@ -19,23 +19,23 @@
   },
   "homepage": "https://github.com/appliedblockchain/cobalt#readme",
   "devDependencies": {
-    "@appliedblockchain/eslint-config": "^2.2.0",
-    "code": "^5.2.0",
-    "eslint": "^4.19.1",
-    "mocha": "^5.1.1"
+    "@appliedblockchain/eslint-config": "^2.3.0",
+    "code": "^5.2.1",
+    "eslint": "^5.8.0",
+    "mocha": "^5.2.0"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
   },
   "dependencies": {
-    "commander": "^2.15.1",
-    "ganache-core": "^2.1.0",
+    "commander": "^2.19.0",
+    "ganache-core": "^2.2.1",
     "keccak": "^1.4.0",
     "keythereum": "^1.0.3",
-    "lodash": "^4.17.10",
-    "progress": "^2.0.0",
-    "secp256k1": "^3.5.0",
+    "lodash": "^4.17.11",
+    "progress": "^2.0.1",
+    "secp256k1": "^3.5.2",
     "sprintf": "^0.1.5",
-    "web3": "1.0.0-beta.33"
+    "web3": "1.0.0-beta.36"
   }
 }
