@@ -16,16 +16,22 @@ const DEFAULT_SOLC = process.env.SOLC || 'solc'
  *
  * @param {string} .root = DEFAULT_ROOT ('./contracts') Contracts' root directory.
  * @param {string} .solc = DEFAULT_SOLC ('solc') Solidity compiler should be on your PATH.
+ * @param {string} .evmVersion
+ * @param {string} .allowPaths
  * @return {function} Compiler function.
  */
-function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC, allowPaths } = {}) {
+function make({ root = DEFAULT_ROOT, solc = DEFAULT_SOLC, evmVersion, allowPaths } = {}) {
 
-  const allowPathsParam = allowPaths ?
+  const evmVersionString = evmVersion ?
+    `--evm-version ${evmVersion}` :
+    ''
+
+  const allowPathsString = allowPaths ?
     `--allow-paths ${allowPaths}` :
     ''
 
   function compile(name) {
-    const { stdout, stderr } = sh(`cd ${root} && ${solc} ${allowPathsParam} --combined-json abi,bin ${name}`)
+    const { stdout, stderr } = sh(`cd ${root} && ${solc} ${evmVersionString} ${allowPathsString} --combined-json abi,bin ${name}`)
     if (stderr) {
       throw new Error('stderr', { stdout, stderr })
     }

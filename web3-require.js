@@ -3,23 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const assert = require('assert')
 const isDir = require('./is-dir-sync')
-const { each, set, uniq, map, isString } = require('lodash')
-const bytecodePlaceholders = require('./bytecode-placeholders')
+const { each, set, isString } = require('lodash')
 const parseSolcJson = require('./parse-solc-json')
-
-function throwOnAmbiguousPlaceholders(bytecode) {
-
-  // Skip check on empty bytecode for interfaces.
-  if (bytecode == null || bytecode === '') {
-    return
-  }
-
-  const ps = bytecodePlaceholders(bytecode)
-  const xs = uniq(map(ps.filter(_1 => _1.ambiguous && !_1.name.endsWith('___')), 'name'))
-  if (xs.length) {
-    throw new Error(`Ambiguous placeholders ${xs.join(', ')}.`)
-  }
-}
 
 /**
  * Usage:
@@ -36,17 +21,20 @@ function throwOnAmbiguousPlaceholders(bytecode) {
  * @param {solc} .solc
  * @returns {object} an ethereum contract
  */
-function make({ root, solc, allowPaths }) {
+function make({ root, solc: maybeSolc, evmVersion, allowPaths }) {
+
+  // Effective solc.
+  let solc = maybeSolc
 
   // When `root` is defined, construct `solc`.
   if (root) {
     assert(!solc, 'Expected solc to be nil.')
-    solc = require('./solc')({ root, allowPaths })
+    solc = require('./solc')({ root, evmVersion, allowPaths })
   }
 
   // Try to see if we can see `./contracts`.
   if (!solc && isDir('./contracts')) {
-    solc = require('./solc')({ root: './contracts', allowPaths })
+    solc = require('./solc')({ root: './contracts', evmVersion, allowPaths })
   }
 
   // At this point, we need to have `solc` defined.
@@ -66,9 +54,9 @@ function make({ root, solc, allowPaths }) {
       solc(filename)
 
     each(parsed, ({ abi, bin: data }, key) => {
-      throwOnAmbiguousPlaceholders(data)
       set(this, [ 'ctr', key ], new this.eth.Contract(abi, { from, data }))
     })
+
     return this.ctr
   }
 
