@@ -51,7 +51,7 @@ To deploy a contract from your terminal you can use something like:
 
 `./contracts/Foo.sol`
 ```solidity
-  pragma solidity ^0.4.23;
+  pragma solidity ^0.5.9;
 
   contract Foo {
     string myVariable;

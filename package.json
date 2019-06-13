@@ -1,28 +1,29 @@
 {
   "name": "@appliedblockchain/cobalt",
   "version": "0.9.0",
-  "description": "Blockchain monorepo/npm - all the little things to prototype blockchain based systems fast.",
+  "description": "Little things to prototype ethereum based systems.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -t 5000",
-    "lint": "eslint . --ext .js --ignore-pattern .gitignore",
+    "test": "npx flow check && eslint . && jest",
     "cobalt-deploy": "./bin/cobalt-deploy.js"
   },
   "bin": {
     "cobalt-deploy": "./bin/cobalt-deploy.js"
   },
   "repository": "appliedblockchain/cobalt",
-  "author": "Mirek Rusin",
+  "author": "Applied Blockchain",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/appliedblockchain/cobalt/issues"
   },
   "homepage": "https://github.com/appliedblockchain/cobalt#readme",
   "devDependencies": {
-    "@appliedblockchain/eslint-config": "^2.3.0",
-    "code": "^5.2.1",
-    "eslint": "^5.8.0",
-    "mocha": "^5.2.0"
+    "@appliedblockchain/eslint-config": "2.6.0",
+    "eslint": "5.16.0",
+    "flow-bin": "0.101.0",
+    "ganache-core": "2.5.5",
+    "jest": "24.8.0",
+    "web3": "1.0.0-beta.33"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
@@ -31,14 +32,16 @@
     "flow-typed/*"
   ],
   "dependencies": {
-    "commander": "^2.19.0",
-    "ganache-core": "^2.2.1",
-    "keccak": "^1.4.0",
-    "keythereum": "^1.0.3",
-    "lodash": "^4.17.11",
-    "progress": "^2.0.1",
-    "secp256k1": "^3.5.2",
-    "sprintf-js": "1.1.2",
-    "web3": "1.0.0-beta.36"
+    "commander": "2.20.0",
+    "keccak": "2.0.0",
+    "keythereum": "1.0.4",
+    "lodash": "4.17.11",
+    "progress": "2.0.3",
+    "secp256k1": "3.7.1",
+    "sprintf-js": "1.1.2"
+  },
+  "peerDependencies": {
+    "ganache-core": "^2",
+    "web3": "^1"
   }
 }
