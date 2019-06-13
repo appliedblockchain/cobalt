@@ -42,6 +42,7 @@ const providers = {
  * @param {object} options
  * @param {number} options.accounts Number of accounts to generate.
  * @param {string} options.root Contract's root for `web3.require` so `solc` compiler knows where to look for `.sol` files.
+ * @param {string} options.evmVersion EVM version for solc, ie. `spuriousDragon`.
  * @param {string} options.allowPaths Set to '../,' to allow `import "../Foo.sol"` etc.
  * @param {solc} options.solc Alternative to root, pass `solc` compiler directly.
  *
@@ -89,9 +90,10 @@ function makeWeb3(options = {}) {
   // Decorate with `require`.
   const root = get(options, 'root')
   const solc = get(options, 'solc')
+  const evmVersion = get(options, 'evmVersion')
   const allowPaths = get(options, 'allowPaths')
   assert(!web3.require, 'Can\'t overwrite web3.require.')
-  web3.require = makeWeb3Require({ root, solc, allowPaths })
+  web3.require = makeWeb3Require({ root, solc, evmVersion, allowPaths })
 
   // Decorate with `deploy`.
   assert(!web3.deploy, 'Can\'t overwrite web3.deploy.')
