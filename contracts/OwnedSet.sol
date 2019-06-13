@@ -12,7 +12,7 @@
 //! See the License for the specific language governing permissions and
 //! limitations under the License.
 
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.9;
 
 import "./interfaces/Owned.sol";
 import "./interfaces/ValidatorSet.sol";
@@ -69,7 +69,7 @@ contract OwnedSet is Owned, ValidatorSet {
 	// Was the last validator change finalized. Implies validators == pending
 	bool public finalized;
 
-	constructor(address[] _initial) public {
+	constructor(address[] memory _initial) public {
 		pending = _initial;
 		for (uint i = 0; i < _initial.length - 1; i++) {
 			pendingStatus[_initial[i]].isIn = true;
@@ -79,11 +79,11 @@ contract OwnedSet is Owned, ValidatorSet {
 	}
 
 	// Called to determine the current set of validators.
-	function getValidators() constant public returns (address[]) {
+	function getValidators() view public returns (address[] memory) {
 		return validators;
 	}
 
-	function getPending() constant public returns (address[]) {
+	function getPending() view public returns (address[] memory) {
 		return pending;
 	}
 
@@ -127,7 +127,7 @@ contract OwnedSet is Owned, ValidatorSet {
 	// MISBEHAVIOUR HANDLING
 
 	// Called when a validator should be removed.
-	function reportMalicious(address _validator, uint _blockNumber, bytes) public only_owner is_recent(_blockNumber) {
+	function reportMalicious(address _validator, uint _blockNumber, bytes memory) public only_owner is_recent(_blockNumber) {
 		emit Report(msg.sender, _validator, true);
 	}
 

@@ -1,8 +1,8 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.9;
 
 library LibraryNameThatOverflowsItsPlaceholderA {
 
-  function longLengthA(bytes data) public pure returns (uint256) {
+  function longLengthA(bytes memory data) public pure returns (uint256) {
     return data.length;
   }
 

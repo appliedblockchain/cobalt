@@ -14,7 +14,7 @@
 //! See the License for the specific language governing permissions and
 //! limitations under the License.
 
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.9;
 
 contract Owned {
 	modifier only_owner { require(msg.sender == owner); _; }
