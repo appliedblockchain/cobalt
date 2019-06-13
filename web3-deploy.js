@@ -1,6 +1,5 @@
 
 const { get, has } = require('lodash')
-const bytecodePlaceholders = require('./bytecode-placeholders')
 const bytecodeLink = require('./bytecode-link')
 
 const nullAddress = '0x0000000000000000000000000000000000000000'
@@ -28,14 +27,14 @@ async function web3Deploy(name, args = [], { from, gas, links = {} } = {}) {
     throw new Error(`${name} contract not found, did you forget web3.require('${name}.sol')?`)
   }
 
-  const deployOptions = { arguments: args }
+  const unlinkedBytecode = this.ctr[name].options.data
+  const linkedBytecode = bytecodeLink(unlinkedBytecode, links)
 
-  const bytecode = this.ctr[name].options.data
-  const placeholders = bytecodePlaceholders(bytecode)
-
-  // Link if contract has placeholders.
-  if (placeholders.length) {
-    deployOptions.data = bytecodeLink(bytecode, links)
+  const deployOptions = {
+    arguments: args,
+    data: unlinkedBytecode === linkedBytecode ?
+      void 0 :
+      linkedBytecode
   }
 
   const result = await this.ctr[name]
