@@ -1,5 +1,5 @@
 
-const sprintf = require('sprintf')
+const sprintf = require('sprintf-js')
 
 function puts(...args) {
   console.log(sprintf(...args))

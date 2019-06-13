@@ -1,5 +1,5 @@
 
-const sprintf = require('sprintf')
+const sprintf = require('sprintf-js')
 const Progress = require('progress')
 
 /**
