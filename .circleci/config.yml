@@ -1,140 +1,38 @@
 version: 2
 
-references:
-  container_config: &container_config
-    docker:
-      - image: circleci/node:9
-    working_directory: ~/workspace
-
-  workspace_root: &workspace_root
-    ~/workspace
-
-  attach_workspace: &attach_workspace
-    attach_workspace:
-      at: *workspace_root
-
-  restore_repo: &restore_repo
-    restore_cache:
-      keys:
-        - v1-repo-{{ .Branch }}-{{ .Revision }}
-        - v1-repo-{{ .Branch }}
-        - v1-repo
-  npm_cache_key: &npm_cache_key
-    v1-dependency-npm-{{ checksum "package.json" }}
-  npm_backup_cache_key: &npm_backup_cache_key
-    v1-dependency-npm
-
-  restore_node_modules: &restore_node_modules
-    restore_cache:
-      keys:
-        - *npm_cache_key
-        - *npm_backup_cache_key
 jobs:
-  checkout_code:
-    <<: *container_config
-    steps:
-      - *restore_repo
-      - checkout
-      - save_cache:
-          key: v1-repo-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - .
+
   build:
-    <<: *container_config
-
+    docker:
+      - image: circleci/node:11
     steps:
-      - *restore_repo
-      - *restore_node_modules
+      - run: wget https://github.com/ethereum/solidity/releases/download/v0.5.9/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+      - run: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
+      - checkout
+      - run: npm i
+      - run: npm test
 
-      - run:
-          name: Authorize NPM
-          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
-
-      - run: npm install
-
-      - save_cache:
-          key: *npm_cache_key
-          paths:
-            - ~/workspace/node_modules
-  lint:
-    <<: *container_config
-
+  publish_npm:
+    docker:
+      - image: circleci/node:11
     steps:
-      - *attach_workspace
-      - *restore_repo
-      - *restore_node_modules
-
-      - run:
-          name: Eslint
-          command: npm run lint
-
-      - store_artifacts:
-          path: reports/junit
-  test:
-    <<: *container_config
-
-    steps:
-      - *attach_workspace
-      - *restore_repo
-      - *restore_node_modules
-      - setup_remote_docker
-
-      - run:
-          name: Install solidity
-          command: wget https://github.com/ethereum/solidity/releases/download/v0.4.23/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
-
-      - run:
-          name: Test
-          command: npm run test
-
-      - store_test_results:
-          path: reports/junit
-
-  publish_npm_on_tag:
-    <<: *container_config
-
-    steps:
-      - add_ssh_keys
-      - *attach_workspace
-      - *restore_repo
-      - run:
-          name: Authorize NPM
-          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
-      - run:
-          name: Publish to NPM
-          command: npm publish
+      - run: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
+      - checkout
+      - run: npm publish
 
 workflows:
   version: 2
   main:
     jobs:
-      - checkout_code
       - build:
           context: org-global
-          requires:
-            - checkout_code
           filters:
             tags:
               only: /.*/
-      - lint:
+      - publish_npm:
           context: org-global
           requires:
             - build
-          filters:
-            tags:
-              only: /.*/
-      - test:
-          context: org-global
-          requires:
-            - build
-          filters:
-            tags:
-              only: /.*/
-      - publish_npm_on_tag:
-          context: org-global
-          requires:
-            - test
-            - lint
           filters:
             tags:
               only: /v.*/
