@@ -27,6 +27,9 @@
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
   },
+  "eslintIgnore": [
+    "flow-typed/*"
+  ],
   "dependencies": {
     "commander": "^2.19.0",
     "ganache-core": "^2.2.1",
