@@ -35,7 +35,7 @@
     "commander": "2.20.0",
     "keccak": "2.0.0",
     "keythereum": "1.0.4",
-    "lodash": "4.17.11",
+    "lodash": "4.17.19",
     "progress": "2.0.3",
     "secp256k1": "3.7.1",
     "sprintf-js": "1.1.2"
